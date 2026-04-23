@@ -1,0 +1,72 @@
+########### Configuration of GCP with VSCODE terminal ############
+
+# GCP config
+gcloud auth login
+gcloud config set project <PROJECT_ID>
+gcloud config set compute/zone europe-west1-b
+
+# (OPTIONAL) sukurti VM jei dar nėra
+gcloud compute instances create mc-vm \
+    --machine-type=n2-standard-4 \
+    --image-family=debian-11 \
+    --image-project=debian-cloud
+
+# pakeisti VM tipą (VM turi būti STOPPED!)
+gcloud compute instances stop mc-vm --zone=europe-west1-b
+gcloud compute instances set-machine-type mc-vm \
+    --zone=europe-west1-b \
+    --machine-type=n2-standard-4
+
+# start/stop VM
+gcloud compute instances start mc-vm --zone=europe-west1-b
+gcloud compute instances stop mc-vm --zone=europe-west1-b
+
+# check status
+gcloud compute instances list
+
+# connect via SSH
+gcloud compute ssh mc-vm --zone=europe-west1-b
+
+
+######### Working in VM ######################
+
+# install Python + Git
+sudo apt update
+sudo apt install python3-pip git -y
+pip3 install numpy
+
+# clone repo (GERIAU IŠ KARTO PER SSH)
+git clone git@github.com:arvydasjo/MC-simulation-test.git
+
+cd MC-simulation-test
+
+# run code
+python3 program_name.py
+
+
+######### Git push iš VM ######################
+
+git add results_vm.txt
+git commit -m "update results"
+git push
+
+
+######### SSH setup (jei prašo password) ######
+
+# generate SSH key
+ssh-keygen -t rsa -b 4096 -C "your_email"
+
+# copy key
+cat ~/.ssh/id_rsa.pub
+
+# GitHub:
+# Settings → SSH and GPG keys → New SSH key
+
+# set SSH remote (jei klonavai per HTTPS)
+git remote set-url origin git@github.com:arvydasjo/MC-simulation-test.git
+
+# test connection
+ssh -T git@github.com
+
+# push
+git push
