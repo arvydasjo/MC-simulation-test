@@ -1,0 +1,6 @@
+Environment: local
+MC simulation number: 500000
+Average price: 108.3261631134679
+Median: 106.1995232148833
+VaR 5%: 76.39585660091296
+Execution time: 10.531485795974731
