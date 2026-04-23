@@ -1,0 +1,6 @@
+Environment: vm
+MC simulation number: 500000
+Average price: 108.30417870444883
+Median: 106.19797948766991
+VaR 5%: 76.38285756266038
+Execution time: 4.817263603210449
